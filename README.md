@@ -35,7 +35,7 @@ Then you can use this command:
 :WebSearch github keyword1 keyword2 ...
 ```
 
-The `<QUERY>` will be replace with the keywords when you are searching.
+The `<QUERY>` will be replaced with the keywords when you are searching.
 By default, google and baidu is able to use without config.
 
 ```vim
