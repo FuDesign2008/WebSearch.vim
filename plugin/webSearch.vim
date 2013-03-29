@@ -51,23 +51,30 @@ function! s:OpenUrl(url)
     endif
 endfunction
 
-let s:defaultEngins = {
+let s:defaultEngines = {
             \ 'google': 'https://encrypted.google.com/search?q=<QUERY>',
             \ 'baidu': 'http://www.baidu.com/s?wd=<QUERY>'
             \}
 
-function! s:MergeDefaultEngines(key, val)
-    if !has_key(g:webSearchEngines, a:key)
-        g:webSearchEngines[a:key] = a:val
-    endif
-endfunction
+"function! s:MergeDefaultEngines(key, val)
+    "echomsg a:key . ': ' a:val
+    "if !has_key(g:webSearchEngines, a:key)
+        "let g:webSearchEngines[a:key] = a:val
+    "endif
+"endfunction
 
 if !exists('g:webSearchEngines')
-    let g:webSearchEngines = s:defaultEngins
-else
-    map(g:webSearchEngines, 's:MergeDefaultEngines(v:key, v:val)')
+    let g:webSearchEngines = {}
 endif
 
+"map(s:defaultEngines, 's:MergeDefaultEngines(v:key, v:val)')
+
+if !has_key(g:webSearchEngines, 'google')
+    let g:webSearchEngines['google'] = s:defaultEngines['google']
+endif
+if !has_key(g:webSearchEngines, 'baidu')
+    let g:webSearchEngines['baidu'] = s:defaultEngines['baidu']
+endif
 
 function! s:WebSearch(engineName, ...)
     if !has_key(g:webSearchEngines, a:engineName)
