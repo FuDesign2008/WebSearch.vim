@@ -137,7 +137,7 @@ if has_key(g:webSearchEngines, 'mdn')
         call s:MDNSearch(keyword)
     endfunction
 
-    command -nargs=+ MDN call s:MDNSearch(<f-args>)
+    command -nargs=+ Mdn call s:MDNSearch(<f-args>)
     noremap <leader>mz :call MDNKeyword()<CR>
 endif
 
