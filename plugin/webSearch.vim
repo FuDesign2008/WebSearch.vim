@@ -3,10 +3,11 @@
 "
 " avalable for win32, mac, unix/linux
 "
-"1. Google/Baidu with keyword under cursor
-"   the shortcur key is: <leader>G /<leader>B
-"2. :Google keyword1 keyword2
-"   :Baidu keyword1 keyword2
+"1. Google/Baidu/MDN with keyword under cursor
+"   the shortcur key is: <leader>gg/bd/mz
+"2. :Google keyword1 keyword2 ...
+"   :Baidu keyword1 keyword2 ...
+"   :Mdn keyword1 keyword2 ...
 "
 "3. :WebSearch engineName keyword1 keyword2
 "   You can config `g:webSearchEngines` to config web search engines in .vimrc
@@ -53,7 +54,8 @@ endfunction
 
 let s:defaultEngines = {
             \ 'google': 'https://encrypted.google.com/search?q=<QUERY>',
-            \ 'baidu': 'http://www.baidu.com/s?wd=<QUERY>'
+            \ 'baidu': 'http://www.baidu.com/s?wd=<QUERY>',
+            \ 'mdn': 'https://developer.mozilla.org/en-US/search?q=<QUERY>'
             \}
 
 "function! s:MergeDefaultEngines(key, val)
@@ -74,6 +76,9 @@ if !has_key(g:webSearchEngines, 'google')
 endif
 if !has_key(g:webSearchEngines, 'baidu')
     let g:webSearchEngines['baidu'] = s:defaultEngines['baidu']
+endif
+if !has_key(g:webSearchEngines, 'mdn')
+    let g:webSearchEngines['mdn'] = s:defaultEngines['mdn']
 endif
 
 function! s:WebSearch(engineName, ...)
@@ -103,7 +108,7 @@ if has_key(g:webSearchEngines, 'google')
     endfunction
 
     command -nargs=+ Google call s:GoogleSearch(<f-args>)
-    noremap <leader>G :call GoogleKeyword()<CR>
+    noremap <leader>gg :call GoogleKeyword()<CR>
 endif
 
 if has_key(g:webSearchEngines, 'baidu')
@@ -118,7 +123,22 @@ if has_key(g:webSearchEngines, 'baidu')
     endfunction
 
     command -nargs=+ Baidu call s:BaiduSearch(<f-args>)
-    noremap <leader>B :call BaiduKeyword()<CR>
+    noremap <leader>bd :call BaiduKeyword()<CR>
+endif
+
+if has_key(g:webSearchEngines, 'mdn')
+    function! s:MDNSearch(...)
+        let keywords = join(a:000, ' ')
+        call s:WebSearch('mdn', keywords)
+    endfunction
+
+    function! MDNKeyword()
+        let keyword = expand('<cword>')
+        call s:MDNSearch(keyword)
+    endfunction
+
+    command -nargs=+ MDN call s:MDNSearch(<f-args>)
+    noremap <leader>mz :call MDNKeyword()<CR>
 endif
 
 

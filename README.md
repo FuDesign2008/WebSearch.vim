@@ -3,15 +3,16 @@ WebSearch.vim
 
 Integrate web search engines, such as Google ,  in vim
 
-###Google/Baidu the keyword under cursor
+###Google/Baidu/MDN the keyword under cursor
 
-   the shortcur key is: `<leader>G`,  `<leader>B`
+   the shortcur key is: `<leader>gg`,  `<leader>bd`, `<leader>mz`
 
 ###Support Searching in ex Command
 
 ```vim
 :Google keyword1 keyword2 ...
 :Baidu keyword1 keyword2 ...
+:Mdn keyword1 keyword2 ...
 ```
 
 ###The Ultra Searching Command
@@ -45,4 +46,5 @@ By default, google and baidu is available without config.
 :WebSearch baidu keyword1 keyword2 ...
 :Google keyword1 keyword2 ...
 :Baidu keyword1 keyword2 ...
+:Mdn keyword1 keyword2 ...
 ```
