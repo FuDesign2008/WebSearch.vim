@@ -24,10 +24,10 @@
 
 
 
-if &cp || exists("g:web_search")
+if &cp || exists("g:web_search_loaded")
     finish
 endif
-let g:web_search = 1
+let g:web_search_loaded = 1
 let s:save_cpo = &cpo
 set cpo&vim
 
@@ -84,6 +84,7 @@ endif
 function! s:WebSearch(engineName, ...)
     if !has_key(g:webSearchEngines, a:engineName)
         echomsg 'Do NOT support search engine: ' . a:engineName
+        return
     endif
     let query =  substitute(join(a:000, ' '), ' ', '+', 'g')
     if strlen(query)
