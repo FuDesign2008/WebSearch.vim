@@ -1,6 +1,9 @@
 "
 " webSearch.vim
 "
+" Author: FuDesign2008@163.com
+" Version: 1.0.1
+"
 " avalable for win32, mac, unix/linux
 "
 "1. Google/Baidu/MDN with keyword under cursor
@@ -35,19 +38,22 @@ function! s:OpenUrl(url)
     if strlen(a:url)
         " open url from shell command line
         " @see http://www.dwheeler.com/essays/open-files-urls.html
-        "
+        let urlStr = a:url
+        " replace # with \#, or else # will be replace with alternative file
+        " in vim
+        let urlStr = substitute(urlStr, '#', '\\#', '')
         if has('win32')
-            silent exec "!cmd /c start " . a:url
-            echomsg 'open url "' . a:url . '" ...'
+            silent exec "!cmd /c start " . urlStr
+            echomsg 'open url "' . urlStr . '" ...'
         elseif has('mac')
-            silent exec "!open '". a:url ."'"
-            echomsg 'open url "' . a:url . '" ...'
+            silent exec "!open '". urlStr ."'"
+            echomsg 'open url "' . urlStr . '" ...'
         elseif has('unix')
             " unix/linux
-            silent exec "!xdg-open '". a:url ."'"
-            echomsg 'open url "' . a:url . '" ...'
+            silent exec "!xdg-open '". urlStr ."'"
+            echomsg 'open url "' . urlStr . '" ...'
         else
-            echomsg 'Url "' . a:url . '" can NOT be opened!'
+            echomsg 'Url "' . urlStr . '" can NOT be opened!'
         endif
     endif
 endfunction

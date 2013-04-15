@@ -1,0 +1,96 @@
+*websearch.txt*  Search all the web with your favorite search engines!
+
+        __        __   _       ____                      _
+        \ \      / /__| |__   / ___|  ___  __ _ _ __ ___| |__
+         \ \ /\ / / _ \ '_ \  \___ \ / _ \/ _` | '__/ __| '_ \
+          \ V  V /  __/ |_) |  ___) |  __/ (_| | | | (__| | | |
+           \_/\_/ \___|_.__/  |____/ \___|\__,_|_|  \___|_| |_|
+
+
+                              Reference Manual
+
+
+
+==============================================================================
+CONTENTS                                                 *WebSearch-contents*
+
+    1. Usage ................ |WebSearchUsage|
+    2. Configuration ........ |WebSearchConfiguration|
+    3. License .............. |WebSearchLicense|
+    4. About ................ |WebSearchAbout|
+    5. Changelog ............ |WebSearchChangelog|
+    6. Credits .............. |WebSearchCredits|
+
+==============================================================================
+1: Usage                                                     *WebSearchUsage*
+
+The WebSearch allows you to search all the web with your favorite engines. For
+Example: >
+        :WebSearch google hello world
+
+Vim will open the default browser of opertaion system, and open the search
+engine page with keyword. In the example, Vim will open google web page with
+the search result of 'hello world'.
+
+The search syntax is:
+        :WebSearch engineName keyword1 [keyword2 ...]
+
+However, short commands are added for google, baidu and mdn search engines:
+        :Google keyword1 [keyword2 ...]
+        :Baidu  keyword1 [keyword2 ...]
+        :Mdn    keyword1 [keyword2 ...]
+
+==============================================================================
+2: Configuration                                     *WebSearchConfiguration*
+
+Before using the plugin, you may configure 'g:webSearchEngines' to tell the
+plugin which seach engines you want to use. For example, we add the search
+engine of github.com: >
+        let g:webSearchEngines = {
+            \ 'github': 'https://github.com/search?q=<QUERY>'
+        }
+
+We then can search github.com with this command:
+        :WebSearch github  keyword1 [keyword2 ...]
+
+The '<QUERY>' in the configuration will be replaced with keywords when
+executing search command.
+
+==============================================================================
+3: License                                                 *WebSearchLicense*
+
+Like vim, the license of plugin is GPL-compatible and distributed freely. The
+full license text can be found in the documentation.
+
+See http://vimdoc.sourceforge.net/htmldoc/uganda.html#license
+
+
+==============================================================================
+4: About                                                     *WebSearchAbout*
+
+The author of the plugin is a coder called FuDesign2008 who loves vim.
+
+The latest dev versions are on github
+    https://github.com/FuDesign2008/WebSearch.vim
+
+He can be reached at FuDesign2008@163.com and FuDesignhaha@gmail.com.  He would
+love to hear from you, so feel free to send him suggestions, bugs  and/or
+comments about this plugin.
+
+
+==============================================================================
+5: Changelog                                             *WebSearchChangelog*
+
+
+1.0.1
+    - add help document.
+    - fix bug for `#` in the url of search engines.
+
+1.0.0
+    - search all the web, ':WebSearch' command.
+    - add short command for google, baidu and mdn.
+
+==============================================================================
+6: Credits                                                 *WebSearchCredits*
+
+
