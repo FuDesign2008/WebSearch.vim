@@ -42,8 +42,8 @@ function! s:OpenUrl(url)
         " replace # with \#, or else # will be replace with alternative file
         " in vim
         let urlStr = substitute(urlStr, '#', '\\#', '')
-        if has('win32')
-            silent exec "!cmd /c start " . urlStr
+        if has('win32') || has('win64')
+            silent exec '!cmd /c start "" "' . urlStr . '"'
             echomsg 'open url "' . urlStr . '" ...'
         elseif has('mac')
             silent exec "!open '". urlStr ."'"
