@@ -48,4 +48,13 @@ Then you can use this command:
 
 The `<QUERY>` will be replaced with the keywords when you are searching.
 
+##Screenshots
+
+Screenshot for `:Google jquery`:
+![google_jquery.png](./google_jquery.png)
+
+Screenshot for `<leader>gg` when the cursor on the word of `console`:
+![leader_gg](./leader_gg.png)
+
+
 
