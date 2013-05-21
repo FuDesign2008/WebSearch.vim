@@ -20,7 +20,7 @@
 "       }
 "   then you can use
 "       :WebSearch github vimKit
-"   by default, google and baidu is able to use without config
+"   by default, google and baidu is available to use without config
 "       :WebSearch google vim kit
 "       :WebSearch baidu vim kit
 "

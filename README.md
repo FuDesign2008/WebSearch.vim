@@ -1,13 +1,19 @@
 WebSearch.vim
 =============
 
-Integrate web search engines, such as Google ,  in vim
+Integrate web search engines, such as Google ,  with vim
 
-###Google/Baidu/MDN the keyword under cursor
+##Usage
 
-   the shortcur key is: `<leader>gg`,  `<leader>bd`, `<leader>mz`
+The general usage is: `:WebSearch engineName keyword1 keyword2 ...`. For
+example:
 
-###Support Searching in ex Command
+```vim
+:WebSearch google keyword1 keyword2 ...
+:WebSearch baidu keyword1 keyword2 ...
+```
+By default, `google`, `baidu` and `mdn` is available without configuration, so
+you can search something with these engine shortly:
 
 ```vim
 :Google keyword1 keyword2 ...
@@ -15,13 +21,17 @@ Integrate web search engines, such as Google ,  in vim
 :Mdn keyword1 keyword2 ...
 ```
 
-###The Ultra Searching Command
+Also, there are shortcuts to search the word under cursor:
 
-```vim
-:WebSearch engineName keyword1 keyword2
-```
+* `<leader>gg` to search the word under cursor with google.
 
-You can config `g:webSearchEngines` with web search engines in `.vimrc`.
+* `<leader>bd` to search the word under cursor with baidu.
+
+* `<leader>mz` to search the word under cursor with mdn.
+
+##Custom Search Engines
+
+You can config `g:webSearchEngines` to add web search engines in `.vimrc`.
 e.g.
 
 ```vim
@@ -39,12 +49,3 @@ Then you can use this command:
 The `<QUERY>` will be replaced with the keywords when you are searching.
 
 
-By default, google and baidu is available without config.
-
-```vim
-:WebSearch google keyword1 keyword2 ...
-:WebSearch baidu keyword1 keyword2 ...
-:Google keyword1 keyword2 ...
-:Baidu keyword1 keyword2 ...
-:Mdn keyword1 keyword2 ...
-```
