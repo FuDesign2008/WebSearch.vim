@@ -58,6 +58,24 @@ function! s:OpenUrl(url)
     endif
 endfunction
 
+function! s:GetSelectedContent()
+    let content = ''
+    let cache = @a
+    try
+        normal! gv"ay
+        let content = @a
+    finally
+        let @a = cache
+    endtry
+    "replace \r\n with space and trim
+    if content != ''
+        let content = substitute(content, '[\r\n]', ' ' , 'g')
+        let content = substitute(content, '^ \+', '', '')
+        let content = substitute(content, ' \+$', '', '')
+    endif
+    return content
+endfunction
+
 let s:defaultEngines = {
             \ 'google': 'https://encrypted.google.com/search?q=<QUERY>',
             \ 'baidu': 'http://www.baidu.com/s?wd=<QUERY>',
@@ -99,7 +117,7 @@ function! s:WebSearch(engineName, ...)
     endif
 endfunction
 
-command -nargs=+ WebSearch call s:WebSearch(<f-args>)
+command! -nargs=+ WebSearch call s:WebSearch(<f-args>)
 
 
 
@@ -110,12 +128,19 @@ if has_key(g:webSearchEngines, 'google')
     endfunction
 
     function! GoogleKeyword()
-        let keyword = expand('<cword>')
-        call s:GoogleSearch(keyword)
+        silent let keyword = s:GetSelectedContent()
+        if keyword == ''
+            let keyword = expand('<cword>')
+        endif
+        echo keyword
+        let pos = getpos('.')
+        echo pos
+        "call s:GoogleSearch(keyword)
     endfunction
 
-    command -nargs=+ Google call s:GoogleSearch(<f-args>)
-    noremap <leader>gg :call GoogleKeyword()<CR>
+    command! -nargs=+ Google call s:GoogleSearch(<f-args>)
+    "unmap <leader>gg
+    noremap <leader>gg <esc>:call GoogleKeyword()<CR>
 endif
 
 if has_key(g:webSearchEngines, 'baidu')
@@ -129,8 +154,9 @@ if has_key(g:webSearchEngines, 'baidu')
         call s:BaiduSearch(keyword)
     endfunction
 
-    command -nargs=+ Baidu call s:BaiduSearch(<f-args>)
-    noremap <leader>bd :call BaiduKeyword()<CR>
+    command! -nargs=+ Baidu call s:BaiduSearch(<f-args>)
+    "unmap <leader>bd
+    noremap <leader>bd <esc>:call BaiduKeyword()<CR>
 endif
 
 if has_key(g:webSearchEngines, 'mdn')
@@ -144,8 +170,9 @@ if has_key(g:webSearchEngines, 'mdn')
         call s:MDNSearch(keyword)
     endfunction
 
-    command -nargs=+ Mdn call s:MDNSearch(<f-args>)
-    noremap <leader>mz :call MDNKeyword()<CR>
+    command! -nargs=+ Mdn call s:MDNSearch(<f-args>)
+    "unmap <leader>mz
+    noremap <leader>mz <esc>:call MDNKeyword()<CR>
 endif
 
 
