@@ -140,6 +140,8 @@ if has_key(g:webSearchEngines, 'google')
 
     command! -nargs=+ Google call s:GoogleSearch(<f-args>)
     "unmap <leader>gg
+    "in visual mode, if has no `<esc>`, the command will be executed
+    "as times as the number of selected lines
     noremap <leader>gg <esc>:call GoogleKeyword()<CR>
 endif
 
