@@ -1,33 +1,57 @@
 WebSearch.vim
 =============
 
-Integrate web search engines, such as Google ,  with vim
+Integrating web search engines, such as Google, into vim
 
 ##Usage
 
-The general usage is: `:WebSearch engineName keyword1 keyword2 ...`. For
+###:WSearch
+The general usage is: `:WSearch engineName keyword1 keyword2 ...`. For
 example:
 
 ```vim
-:WebSearch google keyword1 keyword2 ...
-:WebSearch baidu keyword1 keyword2 ...
+:WSearch google keyword1 keyword2 ...
+:WSearch baidu keyword1 keyword2 ...
 ```
-By default, `google`, `baidu` and `mdn` is available without configuration, so
-you can search something with these engine shortly:
+By default, `google`, `baidu` and `mdn` is available without configuration.
+
+###:WS
+If you set the current search engine, you can use `:WS` command. The syntax is
 
 ```vim
-:Google keyword1 keyword2 ...
-:Baidu keyword1 keyword2 ...
-:Mdn keyword1 keyword2 ...
+:WS keyword1 keyword2 ...
 ```
 
-Also, there are shortcuts to search the word under cursor:
+You can set the current search engine in `.vimrc` :
 
-* `<leader>gg` to search the word under cursor with google.
+```vim
+let g:webSearchCurrentEngine = 'google'
+```
+or set it danymically:
 
-* `<leader>bd` to search the word under cursor with baidu.
+```vim
+:WSEngine google
+```
 
-* `<leader>mz` to search the word under cursor with mdn.
+If you want to know the current search engine, just execute the command:
+```vim
+:WSEngine
+```
+and press `enter` key. The result may be like this
+```
+WebSearch current engine: google
+```
+
+###Shortcut
+
+There are shortcuts to search the word under cursor:
+
+* `<leader>ss` to search the word under cursor with current search engine in
+normal mode.
+
+* `<leader>ss` to search the selected text with current search engine in visual
+mode.
+
 
 ##Custom Search Engines
 
@@ -43,18 +67,10 @@ let g:webSearchEngines = {
 Then you can use this command:
 
 ```vim
-:WebSearch github keyword1 keyword2 ...
+:WSearch github keyword1 keyword2 ...
 ```
 
 The `<QUERY>` will be replaced with the keywords when you are searching.
-
-##Screenshots
-
-Screenshot for `:Google jquery`:
-![google_jquery.png](./google_jquery.png)
-
-Screenshot for `<leader>gg` when the cursor on the word of `console`:
-![leader_gg](./leader_gg.png)
 
 
 

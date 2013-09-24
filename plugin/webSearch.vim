@@ -6,28 +6,32 @@
 "
 " avalable for win32, mac, unix/linux
 "
-"1. Google/Baidu/MDN with keyword under cursor
-"   the shortcur key is: <leader>gg/bd/mz
-"2. :Google keyword1 keyword2 ...
-"   :Baidu keyword1 keyword2 ...
-"   :Mdn keyword1 keyword2 ...
+"1. Search the keyword under cursor in normal mode and search selected content quickly.
+"   default shortcut is: <leader>ss
 "
-"3. :WebSearch engineName keyword1 keyword2
+"2. :WSearch engineName keyword1 keyword2 ...
 "   You can config `g:webSearchEngines` to config web search engines in .vimrc
 "   e.g.
 "       let g:webSearchEngines = {
 "           \ 'github': 'https://github.com/search?q=<QUERY>'
 "       }
 "   then you can use
-"       :WebSearch github vimKit
+"       :WSearch github vimKit
 "   by default, google and baidu is available to use without config
-"       :WebSearch google vim kit
-"       :WebSearch baidu vim kit
+"       :WSearch google vim kit
+"       :WSearch baidu vim kit
+"
+"3. Search with current search engine
+"   :WS keyword1 keyword2 ...
+"
+"4. Change or echo current search engine
+"   :WSEngine  [engineName]
+"
 "
 
 
 
-if &cp || exists("g:web_search_loaded")
+if exists("g:web_search_loaded")
     finish
 endif
 let g:web_search_loaded = 1
@@ -82,18 +86,10 @@ let s:defaultEngines = {
             \ 'mdn': 'https://developer.mozilla.org/en-US/search?q=<QUERY>'
             \}
 
-"function! s:MergeDefaultEngines(key, val)
-    "echomsg a:key . ': ' a:val
-    "if !has_key(g:webSearchEngines, a:key)
-        "let g:webSearchEngines[a:key] = a:val
-    "endif
-"endfunction
-
 if !exists('g:webSearchEngines')
     let g:webSearchEngines = {}
 endif
 
-"map(s:defaultEngines, 's:MergeDefaultEngines(v:key, v:val)')
 
 if !has_key(g:webSearchEngines, 'google')
     let g:webSearchEngines['google'] = s:defaultEngines['google']
@@ -103,6 +99,10 @@ if !has_key(g:webSearchEngines, 'baidu')
 endif
 if !has_key(g:webSearchEngines, 'mdn')
     let g:webSearchEngines['mdn'] = s:defaultEngines['mdn']
+endif
+
+if !exists('g:webSearchCurrentEngine')
+    let g:webSearchCurrentEngine = 'google'
 endif
 
 function! s:WebSearch(engineName, ...)
@@ -117,65 +117,35 @@ function! s:WebSearch(engineName, ...)
     endif
 endfunction
 
-command! -nargs=+ WebSearch call s:WebSearch(<f-args>)
+function! s:WebSearchCurrent(...)
+    call s:WebSearch(g:webSearchCurrentEngine, join(a:000, ' '))
+endfunction
+
+function! s:CurrentEngine(...)
+    if len(a:000)
+        let g:webSearchCurrentEngine = a:000[0]
+    else
+        echo 'WebSearch current engine: ' . g:webSearchCurrentEngine
+    endif
+endfunction
 
 
+function! WebSearchSelected()
+    let keyword = s:GetSelectedContent()
+    call s:WebSearch(g:webSearchCurrentEngine, keyword)
+endfunction
 
-if has_key(g:webSearchEngines, 'google')
-    function! s:GoogleSearch(...)
-        let keywords = join(a:000, ' ')
-        call s:WebSearch('google', keywords)
-    endfunction
+function! WebSearchUnderCursor()
+        call s:WebSearch(g:webSearchCurrentEngine, expand('<cword>'))
+endfunction
 
-    function! GoogleKeyword()
-        silent let keyword = s:GetSelectedContent()
-        if keyword == ''
-            let keyword = expand('<cword>')
-        endif
-        echo keyword
-        let pos = getpos('.')
-        echo pos
-        "call s:GoogleSearch(keyword)
-    endfunction
-
-    command! -nargs=+ Google call s:GoogleSearch(<f-args>)
-    "unmap <leader>gg
-    "in visual mode, if has no `<esc>`, the command will be executed
-    "as times as the number of selected lines
-    noremap <leader>gg <esc>:call GoogleKeyword()<CR>
-endif
-
-if has_key(g:webSearchEngines, 'baidu')
-    function! s:BaiduSearch(...)
-        let keywords = join(a:000, ' ')
-        call s:WebSearch('baidu', keywords)
-    endfunction
-
-    function! BaiduKeyword()
-        let keyword = expand('<cword>')
-        call s:BaiduSearch(keyword)
-    endfunction
-
-    command! -nargs=+ Baidu call s:BaiduSearch(<f-args>)
-    "unmap <leader>bd
-    noremap <leader>bd <esc>:call BaiduKeyword()<CR>
-endif
-
-if has_key(g:webSearchEngines, 'mdn')
-    function! s:MDNSearch(...)
-        let keywords = join(a:000, ' ')
-        call s:WebSearch('mdn', keywords)
-    endfunction
-
-    function! MDNKeyword()
-        let keyword = expand('<cword>')
-        call s:MDNSearch(keyword)
-    endfunction
-
-    command! -nargs=+ Mdn call s:MDNSearch(<f-args>)
-    "unmap <leader>mz
-    noremap <leader>mz <esc>:call MDNKeyword()<CR>
-endif
-
+command! -nargs=+ WSearch call s:WebSearch(<f-args>)
+command! -nargs=+ WS call s:WebSearchCurrent(<f-args>)
+command! -nargs=? WSEngine call s:CurrentEngine(<f-args>)
+"in visual mode, if has no `<esc>`, the command will be executed
+"as times as the number of selected lines
+vnoremap <leader>ss <esc>:call WebSearchSelected()<CR>
+nnoremap <leader>ss <esc>:call WebSearchUnderCursor()<CR>
 
 let &cpo = s:save_cpo
+unlet s:save_cpo
