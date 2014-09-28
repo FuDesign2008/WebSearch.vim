@@ -48,7 +48,11 @@ function! s:OpenUrl(url)
         if has('win32') || has('win64')
             let cmdStr = 'cmd /c start "" ' . urlStr
         elseif has('mac')
-            let cmdStr = 'open ' . urlStr
+            let cmdStr = 'open -a Safari ' . urlStr
+            let findStr = system('ls /Applications/ | grep -i google\ chrome')
+            if strlen(findStr) > 5
+                let cmdStr = 'open -a Google\ Chrome ' . urlStr
+            endif
         elseif has('unix')
             " unix/linux
             let cmdStr = 'xdg-open ' . urlStr
