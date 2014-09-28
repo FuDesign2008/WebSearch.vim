@@ -42,23 +42,24 @@ function! s:OpenUrl(url)
     if strlen(a:url)
         " open url from shell command line
         " @see http://www.dwheeler.com/essays/open-files-urls.html
-        let urlStr = a:url
-        " replace # with \#, or else # will be replace with alternative file
-        " in vim
-        let urlStr = substitute(urlStr, '#', '\\#', '')
+        let urlStr = shellescape(a:url)
+        let cmdStr = ''
+
         if has('win32') || has('win64')
-            silent exec '!cmd /c start "" "' . urlStr . '"'
-            echomsg 'open url "' . urlStr . '" ...'
+            let cmdStr = 'cmd /c start "" ' . urlStr
         elseif has('mac')
-            silent exec "!open '". urlStr ."'"
-            echomsg 'open url "' . urlStr . '" ...'
+            let cmdStr = 'open ' . urlStr
         elseif has('unix')
             " unix/linux
-            silent exec "!xdg-open '". urlStr ."'"
-            echomsg 'open url "' . urlStr . '" ...'
+            let cmdStr = 'xdg-open ' . urlStr
         else
             echomsg 'Url "' . urlStr . '" can NOT be opened!'
+            return
         endif
+
+        call system(cmdStr)
+        echomsg cmdStr
+
     endif
 endfunction
 
