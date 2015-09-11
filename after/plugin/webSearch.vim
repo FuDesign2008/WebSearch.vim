@@ -128,10 +128,15 @@ endfunction
 
 function! s:CurrentEngine(...)
     if len(a:000)
-        let g:webSearchCurrentEngine = a:000[0]
-    else
-        echo 'WebSearch current engine: ' . g:webSearchCurrentEngine
+        let name = a:000[0]
+        let name = substitute(name, '^\s*\(.\{-}\)\s*$', '\1', '')
+        if strlen(name)
+            let g:webSearchCurrentEngine = name
+            return
+        endif
     endif
+
+    echo 'WebSearch current engine: ' . g:webSearchCurrentEngine
 endfunction
 
 
