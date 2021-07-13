@@ -31,7 +31,7 @@
 
 
 
-if exists("g:web_search_loaded")
+if exists('g:web_search_loaded')
     finish
 endif
 let g:web_search_loaded = 1
@@ -77,7 +77,7 @@ function! s:GetSelectedContent()
         let @a = cache
     endtry
     "replace \r\n with space and trim
-    if content != ''
+    if content !=# ''
         let content = substitute(content, '[\r\n]', ' ' , 'g')
         let content = substitute(content, '^ \+', '', '')
         let content = substitute(content, ' \+$', '', '')
@@ -88,6 +88,7 @@ endfunction
 let s:defaultEngines = {
             \ 'google': 'https://encrypted.google.com/search?q=<QUERY>',
             \ 'baidu': 'http://www.baidu.com/s?wd=<QUERY>',
+            \ 'github': 'https://github.com/search?q=<QUERY>',
             \ 'mdn': 'https://developer.mozilla.org/en-US/search?q=<QUERY>'
             \}
 
